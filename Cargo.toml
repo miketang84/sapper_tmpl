@@ -4,3 +4,5 @@ version = "0.1.0"
 authors = ["Mike Tang <miketang84@outlook.com>"]
 
 [dependencies]
+lazy_static = "0.2"
+tera = "0.1"
