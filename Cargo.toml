@@ -5,4 +5,5 @@ authors = ["Mike Tang <miketang84@outlook.com>"]
 
 [dependencies]
 lazy_static = "0.2"
-tera = {git="https://github.com/sappworks/tera.git"}
+#tera = {git="https://github.com/sappworks/tera.git"}
+tera = {git="https://github.com/Keats/tera.git"}
