@@ -6,11 +6,11 @@ use tera::Tera;
 pub use tera::Context;
 
 lazy_static! {
-    static ref TERA: Tera = Tera::new("views/**/*");
+    static ref TERA: Tera = Tera::new("views/**/*").unwrap();
 }
 
 pub fn render(path: &str, context: Context) -> String {
-    TERA.render(path, context).unwrap_or_else(|e| {
+    TERA.render(path, &context).unwrap_or_else(|e| {
         println!("rendering error: {:?}", e);
         // warn!("rendering error: {:?}", e);
         "rendering error".to_owned()

@@ -4,6 +4,6 @@ version = "0.1.0"
 authors = ["Mike Tang <miketang84@outlook.com>"]
 
 [dependencies]
-lazy_static = "0.2"
-#tera = {git="https://github.com/sappworks/tera.git"}
-tera = {git="https://github.com/Keats/tera.git"}
+lazy_static = "0.2.8"
+tera = "0.10.5"
+
