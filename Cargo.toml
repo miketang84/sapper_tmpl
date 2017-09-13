@@ -2,6 +2,8 @@
 name = "sapper_tmpl"
 version = "0.1.0"
 authors = ["Mike Tang <miketang84@outlook.com>"]
+license = "MIT"
+description = "Template module for sapper web framework."
 
 [dependencies]
 lazy_static = "0.2.8"
