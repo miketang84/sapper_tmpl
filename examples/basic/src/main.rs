@@ -36,7 +36,7 @@ impl SapperAppShell for MyApp {
 
 
 pub fn main() {
-    env_logger::init().unwrap();
+    env_logger::init();
 
     
     let mut sapp = SapperApp::new();
