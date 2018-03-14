@@ -1,8 +1,8 @@
 #[macro_use]
 extern crate lazy_static;
-extern crate tera;
 #[cfg(feature = "monitor")]
 extern crate notify;
+extern crate tera;
 
 use tera::Tera;
 use std::sync::RwLock;
@@ -16,17 +16,20 @@ pub fn render(path: &str, context: Context) -> String {
     #[cfg(feature = "monitor")]
     monitor();
 
-    TERA.read().unwrap().render(path, &context).unwrap_or_else(|e| {
-        println!("rendering error: {:?}", e);
-        // warn!("rendering error: {:?}", e);
-        "rendering error".to_owned()
-    })
+    TERA.read()
+        .and_then(|tera| {
+            Ok(tera.render(path, &context).unwrap_or_else(|e| {
+                println!("rendering error: {:?}", e);
+                "rendering error".to_owned()
+            }))
+        })
+        .unwrap()
 }
 
 #[cfg(feature = "monitor")]
 fn monitor() {
     use std::sync::{Once, ONCE_INIT};
-    use notify::{Watcher, RecursiveMode, watcher};
+    use notify::{watcher, RecursiveMode, Watcher};
     use std::sync::mpsc::channel;
     use std::thread::spawn;
     use std::time::Duration;
@@ -40,12 +43,14 @@ fn monitor() {
             watcher.watch("./views", RecursiveMode::Recursive).unwrap();
 
             loop {
-                // println!("start monitor");
                 match rx.recv() {
                     Ok(_) => {
-                            let _ = TERA.write().unwrap().full_reload();
-                            println!("views change");
-                        },
+                        let _ = TERA.write().and_then(|mut tera| {
+                            let _ = tera.full_reload();
+                            Ok(())
+                        });
+                        println!("views change");
+                    }
                     Err(e) => println!("watch error: {:?}", e),
                 }
             }
@@ -53,11 +58,8 @@ fn monitor() {
     });
 }
 
-
-
 #[cfg(test)]
 mod tests {
     #[test]
-    fn it_works() {
-    }
+    fn it_works() {}
 }
